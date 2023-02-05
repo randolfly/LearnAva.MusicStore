@@ -20,6 +20,11 @@ public static class ServiceBootStrap
         Locator.CurrentMutable.RegisterConstant<IAlbumService>(new AlbumService());
     }
 
+    /// <summary>
+    ///     register service in library with fluent paradigm
+    /// </summary>
+    /// <param name="appBuilder">AppBuilder in Program.cs</param>
+    /// <returns></returns>
     public static AppBuilder RegisterAppServices(this AppBuilder appBuilder)
     {
         RegisterAppServices();

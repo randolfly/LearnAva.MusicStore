@@ -71,7 +71,7 @@ public class MusicStoreViewModel : ViewModelBase
 
         foreach (var album in albums)
         {
-            var vm = new AlbumViewModel(album);
+            var vm = new AlbumViewModel(album, Locator.Current.GetService<IAlbumService>());
 
             SearchResults.Add(vm);
         }

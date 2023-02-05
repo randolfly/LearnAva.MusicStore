@@ -9,20 +9,20 @@ namespace LearnAva.MusicStore.Library.ViewModels;
 
 public class AlbumViewModel : ViewModelBase
 {
-    private Bitmap? _cover;
     private readonly Album _album;
-    private IAlbumService _albumService;
+    private readonly IAlbumService _albumService;
+    private Bitmap? _cover;
 
-    public AlbumViewModel(Album album)
+    public AlbumViewModel(Album album, IAlbumService? albumService = null)
     {
         _album = album;
-        _albumService ??= Locator.Current.GetService<IAlbumService>();
+        _albumService = albumService ?? Locator.Current.GetService<IAlbumService>() ?? new AlbumService();
     }
 
     public string Artist => _album.Artist;
 
     public string Title => _album.Title;
-        
+
     public Bitmap? Cover
     {
         get => _cover;
@@ -46,12 +46,10 @@ public class AlbumViewModel : ViewModelBase
         await _albumService.SaveAsync(_album);
 
         if (Cover != null)
-        {
             await Task.Run(() =>
             {
                 using var fs = _albumService.SaveCoverBitmapSteam(_album);
                 Cover.Save(fs);
             });
-        }
     }
 }

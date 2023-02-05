@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
+using LearnAva.MusicStore.Library;
 
 namespace LearnAva.MusicStore
 {
@@ -18,6 +19,7 @@ namespace LearnAva.MusicStore
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .RegisterAppServices();
     }
 }

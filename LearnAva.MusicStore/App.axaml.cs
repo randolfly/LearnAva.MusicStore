@@ -16,9 +16,6 @@ public class App : Application, IEnableLogger
     {
         AvaloniaXamlLoader.Load(this);
 
-        RegisterLogServices();
-        ServiceBootStrap.RegisterLibraryServices();
-
         this.Log().Debug("Hello World!");
     }
 
@@ -31,12 +28,5 @@ public class App : Application, IEnableLogger
             };
 
         base.OnFrameworkInitializationCompleted();
-    }
-
-    public void RegisterLogServices()
-    {
-        // config log service
-        var logger = new DebugLogger { Level = LogLevel.Debug };
-        Locator.CurrentMutable.RegisterConstant(logger, typeof(ILogger));
     }
 }

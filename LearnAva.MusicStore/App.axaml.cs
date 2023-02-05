@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using LearnAva.MusicStore.Library;
 using LearnAva.MusicStore.Library.Interfaces;
 using LearnAva.MusicStore.Library.Services;
 using LearnAva.MusicStore.Library.ViewModels;
@@ -15,7 +16,8 @@ public class App : Application, IEnableLogger
     {
         AvaloniaXamlLoader.Load(this);
 
-        RegisterAppServices();
+        RegisterLogServices();
+        ServiceBootStrap.RegisterLibraryServices();
 
         this.Log().Debug("Hello World!");
     }
@@ -31,13 +33,10 @@ public class App : Application, IEnableLogger
         base.OnFrameworkInitializationCompleted();
     }
 
-    public void RegisterAppServices()
+    public void RegisterLogServices()
     {
         // config log service
         var logger = new DebugLogger { Level = LogLevel.Debug };
         Locator.CurrentMutable.RegisterConstant(logger, typeof(ILogger));
-
-        // normal service
-        Locator.CurrentMutable.RegisterConstant<IAlbumService>(new AlbumService());
     }
 }

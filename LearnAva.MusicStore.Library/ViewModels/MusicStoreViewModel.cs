@@ -71,8 +71,7 @@ public class MusicStoreViewModel : ViewModelBase
 
         foreach (var album in albums)
         {
-            // TODO 修改依赖注入方式，避免一直新建Service
-            var vm = new AlbumViewModel(album, Locator.Current.GetService<IAlbumService>());
+            var vm = new AlbumViewModel(album);
 
             SearchResults.Add(vm);
         }

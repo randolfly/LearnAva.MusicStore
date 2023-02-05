@@ -1,28 +1,35 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using LearnAva.MusicStore.ViewModels;
-using System;
+using LearnAva.MusicStore.Library.ViewModels;
+using Splat;
 
-namespace LearnAva.MusicStore
+namespace LearnAva.MusicStore;
+
+public class ViewLocator : IDataTemplate, IEnableLogger
 {
-    public class ViewLocator : IDataTemplate
+    public bool SupportsRecycling => false;
+
+    public IControl Build(object data)
     {
-        public IControl Build(object data)
+        var name = data.GetType().FullName!
+            .Replace(".Library", string.Empty)
+            .Replace("ViewModel", "View");
+        var type = Type.GetType(name);
+
+        if (type != null)
         {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
-            var type = Type.GetType(name);
-
-            if (type != null)
-            {
-                return (Control)Activator.CreateInstance(type)!;
-            }
-
-            return new TextBlock { Text = "Not Found: " + name };
+            return (Control) Activator.CreateInstance(type)!;
         }
-
-        public bool Match(object data)
+        else
         {
-            return data is ViewModelBase;
+            this.Log().Error($"Not Found: {name}");
+            return new TextBlock {Text = "Not Found: " + name};
         }
+    }
+
+    public bool Match(object data)
+    {
+        return data is ViewModelBase;
     }
 }

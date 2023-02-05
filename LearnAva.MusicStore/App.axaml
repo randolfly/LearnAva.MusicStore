@@ -2,11 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:LearnAva.MusicStore"
              x:Class="LearnAva.MusicStore.App">
-    <Application.DataTemplates>
-        <local:ViewLocator/>
-    </Application.DataTemplates>
+  <Application.DataTemplates>
+    <local:ViewLocator />
+  </Application.DataTemplates>
 
-    <Application.Styles>
-        <FluentTheme Mode="Light"/>
-    </Application.Styles>
+  <Application.Styles>
+    <FluentTheme Mode="Dark" />
+    <StyleInclude Source="avares://LearnAva.MusicStore/Icons.axaml" />
+  </Application.Styles>
 </Application>

@@ -13,10 +13,10 @@ public class AlbumViewModel : ViewModelBase
     private readonly Album _album;
     private IAlbumService _albumService;
 
-    public AlbumViewModel(Album album, IAlbumService albumService)
+    public AlbumViewModel(Album album)
     {
         _album = album;
-        _albumService = albumService;
+        _albumService ??= Locator.Current.GetService<IAlbumService>();
     }
 
     public string Artist => _album.Artist;
@@ -38,7 +38,7 @@ public class AlbumViewModel : ViewModelBase
     public static async Task<IEnumerable<AlbumViewModel>> LoadCached()
     {
         // TODO 修改依赖注入方式，避免一直新建Service
-        return (await IAlbumService.LoadCachedAsync()).Select(x => new AlbumViewModel(x, Locator.Current.GetService<IAlbumService>()));
+        return (await IAlbumService.LoadCachedAsync()).Select(x => new AlbumViewModel(x));
     }
 
     public async Task SaveToDiskAsync()

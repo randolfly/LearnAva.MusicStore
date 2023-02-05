@@ -3,27 +3,36 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using LearnAva.MusicStore.ViewModels;
 using LearnAva.MusicStore.Views;
+using System.Diagnostics;
+using Splat;
 
-namespace LearnAva.MusicStore
+namespace LearnAva.MusicStore;
+
+public partial class App : Application, IEnableLogger
 {
-    public partial class App : Application
+    public override void Initialize()
     {
-        public override void Initialize()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+        AvaloniaXamlLoader.Load(this);
+        this.Log().Debug("Hello World!");
+    }
 
-        public override void OnFrameworkInitializationCompleted()
+    public override void OnFrameworkInitializationCompleted()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            desktop.MainWindow = new MainWindow
             {
-                desktop.MainWindow = new MainWindow
-                {
-                    DataContext = new MainWindowViewModel(),
-                };
-            }
-
-            base.OnFrameworkInitializationCompleted();
+                DataContext = new MainWindowViewModel(),
+            };
         }
+
+        base.OnFrameworkInitializationCompleted();
+    }
+
+    public void RegisterAppServices()
+    {
+        // I only want to hear about errors
+        var logger = new DebugLogger() { Level = LogLevel.Debug };
+        Locator.CurrentMutable.RegisterConstant(logger, typeof(ILogger));
     }
 }

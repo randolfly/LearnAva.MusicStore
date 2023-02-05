@@ -3,6 +3,7 @@ using LearnAva.MusicStore.Library.Interfaces;
 using LearnAva.MusicStore.Library.Models;
 using LearnAva.MusicStore.Library.Services;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Splat;
 
 namespace LearnAva.MusicStore.Library.ViewModels;
@@ -11,7 +12,6 @@ public class AlbumViewModel : ViewModelBase
 {
     private readonly Album _album;
     private readonly IAlbumService _albumService;
-    private Bitmap? _cover;
 
     public AlbumViewModel(Album album, IAlbumService? albumService = null)
     {
@@ -19,15 +19,13 @@ public class AlbumViewModel : ViewModelBase
         _albumService = albumService ?? Locator.Current.GetService<IAlbumService>() ?? new AlbumService();
     }
 
+
     public string Artist => _album.Artist;
 
     public string Title => _album.Title;
 
-    public Bitmap? Cover
-    {
-        get => _cover;
-        private set => this.RaiseAndSetIfChanged(ref _cover, value);
-    }
+    [Reactive]
+    public Bitmap? Cover { get; set; }
 
     public async Task LoadCover()
     {
@@ -37,7 +35,6 @@ public class AlbumViewModel : ViewModelBase
 
     public static async Task<IEnumerable<AlbumViewModel>> LoadCached()
     {
-        // TODO 修改依赖注入方式，避免一直新建Service
         return (await IAlbumService.LoadCachedAsync()).Select(x => new AlbumViewModel(x));
     }
 

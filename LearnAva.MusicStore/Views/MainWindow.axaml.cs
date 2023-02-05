@@ -22,16 +22,11 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>, IEnableLo
 
     private async Task DoShowDialogAsync(InteractionContext<MusicStoreViewModel, AlbumViewModel?> interaction)
     {
-        this.Log().Warn("Show MusicStoreWindow");
+        this.Log().Info("Show MusicStoreWindow");
         var dialog = new MusicStoreWindow();
         dialog.DataContext = interaction.Input;
 
         var result = await dialog.ShowDialog<AlbumViewModel?>(this);
         interaction.SetOutput(result);
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
     }
 }

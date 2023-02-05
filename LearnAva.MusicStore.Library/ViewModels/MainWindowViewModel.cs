@@ -3,13 +3,12 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace LearnAva.MusicStore.Library.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private bool _collectionEmpty;
-
     public MainWindowViewModel()
     {
         ShowDialog = new Interaction<MusicStoreViewModel, AlbumViewModel?>();
@@ -29,11 +28,7 @@ public class MainWindowViewModel : ViewModelBase
         RxApp.MainThreadScheduler.Schedule(LoadAlbums);
     }
 
-    public bool CollectionEmpty
-    {
-        get => _collectionEmpty;
-        set => this.RaiseAndSetIfChanged(ref _collectionEmpty, value);
-    }
+    [Reactive] public bool CollectionEmpty { get; set; }
 
     public ObservableCollection<AlbumViewModel> Albums { get; } = new();
 
@@ -44,10 +39,7 @@ public class MainWindowViewModel : ViewModelBase
     private async void LoadAlbums()
     {
         var albums = await AlbumViewModel.LoadCached();
-
         foreach (var album in albums) Albums.Add(album);
-
-
         LoadCovers();
     }
 

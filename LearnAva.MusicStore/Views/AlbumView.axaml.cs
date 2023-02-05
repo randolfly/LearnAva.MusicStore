@@ -1,5 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using LearnAva.MusicStore.Library.ViewModels;
+using ReactiveUI;
 
 namespace LearnAva.MusicStore.Views;
 

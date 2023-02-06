@@ -8,6 +8,9 @@ using System;
 
 namespace LearnAva.MusicStore.Views;
 
+//[SingleInstanceView]
+//可以从建立View的地方找到这个View的作用
+//Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetAssembly(typeof(App))!);
 public partial class AlbumView : ViewBase<AlbumViewModel>
 {
     public AlbumView()

@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using LearnAva.MusicStore.Library.Interfaces;
 using LearnAva.MusicStore.Library.Services;
-using LearnAva.MusicStore.Library.ViewModels;
 using Splat;
 
 namespace LearnAva.MusicStore.Library;
@@ -17,7 +16,6 @@ public static class ServiceBootStrap
         var logger = new DebugLogger { Level = LogLevel.Info };
         Locator.CurrentMutable.RegisterConstant(logger, typeof(ILogger));
 
-        // config interface-service
         Locator.CurrentMutable.RegisterLazySingleton<IAlbumService>(() => new AlbumService());
     }
 

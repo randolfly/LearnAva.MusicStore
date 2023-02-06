@@ -2,7 +2,6 @@ using Avalonia.Media.Imaging;
 using LearnAva.MusicStore.Library.Interfaces;
 using LearnAva.MusicStore.Library.Models;
 using LearnAva.MusicStore.Library.Services;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Splat;
 
@@ -19,17 +18,15 @@ public class AlbumViewModel : ViewModelBase
         _albumService = albumService ?? Locator.Current.GetService<IAlbumService>() ?? new AlbumService();
     }
 
-
     public string Artist => _album.Artist;
 
     public string Title => _album.Title;
 
-    [Reactive]
-    public Bitmap? Cover { get; set; }
+    [Reactive] public Bitmap? Cover { get; set; }
 
     public async Task LoadCover()
     {
-        await using var imageStream = await _albumService.LoadCoverBitmapAsync(_album);
+        await using var imageStream = await IAlbumService.LoadCoverBitmapAsync(_album);
         Cover = await Task.Run(() => Bitmap.DecodeToWidth(imageStream, 400));
     }
 

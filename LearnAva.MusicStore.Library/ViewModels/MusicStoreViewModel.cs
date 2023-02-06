@@ -2,22 +2,21 @@
 using System.Reactive;
 using System.Reactive.Linq;
 using LearnAva.MusicStore.Library.Interfaces;
-using LearnAva.MusicStore.Library.Models;
 using LearnAva.MusicStore.Library.Services;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Splat;
 
 namespace LearnAva.MusicStore.Library.ViewModels;
 
 public class MusicStoreViewModel : ViewModelBase
 {
+    private readonly IAlbumService _albumService;
     private CancellationTokenSource? _cancellationTokenSource;
-    private bool _isBusy;
-    private string? _searchText;
-    private AlbumViewModel? _selectedAlbum;
 
-    public MusicStoreViewModel()
+    public MusicStoreViewModel(IAlbumService? albumService = null)
     {
+        _albumService = albumService ?? Locator.Current.GetService<IAlbumService>() ?? new AlbumService();
         this.WhenAnyValue(x => x.SearchText)
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .Throttle(TimeSpan.FromMilliseconds(400))
@@ -36,27 +35,15 @@ public class MusicStoreViewModel : ViewModelBase
         });
     }
 
-    public string? SearchText
-    {
-        get => _searchText;
-        set => this.RaiseAndSetIfChanged(ref _searchText, value);
-    }
-
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set => this.RaiseAndSetIfChanged(ref _isBusy, value);
-    }
-
     public ReactiveCommand<Unit, AlbumViewModel?> BuyMusicCommand { get; }
 
     public ObservableCollection<AlbumViewModel> SearchResults { get; } = new();
 
-    public AlbumViewModel? SelectedAlbum
-    {
-        get => _selectedAlbum;
-        set => this.RaiseAndSetIfChanged(ref _selectedAlbum, value);
-    }
+    [Reactive] public string? SearchText { get; set; }
+
+    [Reactive] public bool IsBusy { get; set; }
+
+    [Reactive] public AlbumViewModel? SelectedAlbum { get; set; }
 
     private async void DoSearch(string s)
     {
@@ -67,7 +54,7 @@ public class MusicStoreViewModel : ViewModelBase
 
         _cancellationTokenSource = new CancellationTokenSource();
 
-        var albums = await IAlbumService.SearchAsync(s);
+        var albums = await _albumService.SearchAsync(s);
 
         foreach (var album in albums)
         {

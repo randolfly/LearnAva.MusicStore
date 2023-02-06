@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using iTunesSearch.Library;
 using LearnAva.MusicStore.Library.Models;
 
 namespace LearnAva.MusicStore.Library.Interfaces;
@@ -7,18 +6,26 @@ namespace LearnAva.MusicStore.Library.Interfaces;
 public interface IAlbumService
 {
     public const string Cache = "./Cache";
-    private static readonly iTunesSearchManager ITunesSearchManager = new();
 
-    public Task<Stream> LoadCoverBitmapAsync(Album album);
+    // thread safe, make static
+    private static readonly HttpClient _httpClient = new();
+
     public Stream SaveCoverBitmapSteam(Album album);
-
     public Task SaveAsync(Album album);
+    public Task SaveToStreamAsync(Album data, Stream stream);
+    public Task<IEnumerable<Album>> SearchAsync(string searchTerm);
 
-    #region static methods
+    #region static methods (used in viewmodels to provide static methods in viewmodels)
 
-    public static async Task SaveToStreamAsync(Album data, Stream stream)
+    public static async Task<Stream> LoadCoverBitmapAsync(Album album)
     {
-        await JsonSerializer.SerializeAsync(stream, data).ConfigureAwait(false);
+        var cachePath = GetCachePath(album);
+        if (File.Exists(cachePath + ".bmp"))
+            return File.OpenRead(cachePath + ".bmp");
+
+        var data = await _httpClient.GetByteArrayAsync(album.CoverUrl);
+
+        return new MemoryStream(data);
     }
 
     public static async Task<Album> LoadFromStream(Stream stream)
@@ -29,7 +36,6 @@ public interface IAlbumService
     public static async Task<IEnumerable<Album>> LoadCachedAsync()
     {
         if (!Directory.Exists(Cache)) Directory.CreateDirectory(Cache);
-
         var results = new List<Album>();
 
         foreach (var file in Directory.EnumerateFiles(Cache))
@@ -43,12 +49,10 @@ public interface IAlbumService
         return results;
     }
 
-    public static async Task<IEnumerable<Album>> SearchAsync(string searchTerm)
+    internal static string GetCachePath(Album album)
     {
-        var query = await ITunesSearchManager.GetAlbumsAsync(searchTerm).ConfigureAwait(false);
-
-        return query.Albums.Select(x =>
-            new Album(x.ArtistName, x.CollectionName, x.ArtworkUrl100.Replace("100x100bb", "600x600bb")));
+        var cachePath = $"{Cache}/{album.Artist} - {album.Title}";
+        return cachePath;
     }
 
     #endregion

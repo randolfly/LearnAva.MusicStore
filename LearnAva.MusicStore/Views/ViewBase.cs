@@ -6,7 +6,7 @@ using Splat;
 
 namespace LearnAva.MusicStore.Views;
 
-public class ViewBase<TViewModel> : UserControl, IDataTemplate, IViewFor<TViewModel> where TViewModel : ViewModelBase
+public abstract class ViewBase<TViewModel> : UserControl, IDataTemplate, IViewFor<TViewModel> where TViewModel : ViewModelBase
 {
     public IControl? Build(object? param)
     {

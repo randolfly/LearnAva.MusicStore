@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LearnAva.MusicStore": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

@@ -12,7 +12,8 @@ public static class ServiceBootStrap
     /// </summary>
     public static void RegisterAppViews()
     {
-        Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetAssembly(typeof(App)));
+        // register all views, better than ViewLocator's convention locator
+        Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetAssembly(typeof(App))!);
     }
 
     /// <summary>

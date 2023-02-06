@@ -3,10 +3,12 @@ using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using LearnAva.MusicStore.Library.ViewModels;
 using ReactiveUI;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System;
 
 namespace LearnAva.MusicStore.Views;
 
-public partial class AlbumView : UserControl, IViewFor<AlbumViewModel>, IDataTemplate
+public partial class AlbumView : ViewBase<AlbumViewModel>
 {
     public AlbumView()
     {
@@ -18,20 +20,5 @@ public partial class AlbumView : UserControl, IViewFor<AlbumViewModel>, IDataTem
         AvaloniaXamlLoader.Load(this);
     }
 
-    object? IViewFor.ViewModel
-    {
-        get => ViewModel;
-        set => ViewModel = (AlbumViewModel?)value;
-    }
-
-    public AlbumViewModel? ViewModel { get; set; }
-    public IControl? Build(object? param)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public bool Match(object? data)
-    {
-        throw new System.NotImplementedException();
-    }
+    
 }

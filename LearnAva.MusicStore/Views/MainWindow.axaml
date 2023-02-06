@@ -43,6 +43,9 @@
             <WrapPanel />
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
+        <ItemsControl.DataTemplates>
+          <views:AlbumView />
+        </ItemsControl.DataTemplates>
       </ItemsControl>
     </Panel>
   </Panel>

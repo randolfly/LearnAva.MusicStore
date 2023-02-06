@@ -20,6 +20,7 @@ namespace LearnAva.MusicStore
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI()
-                .RegisterAppServices();
+                .RegisterLibraryServices()
+                .RegisterAppViews();
     }
 }

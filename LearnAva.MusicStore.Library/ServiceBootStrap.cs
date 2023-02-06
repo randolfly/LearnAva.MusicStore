@@ -1,16 +1,18 @@
-﻿using Avalonia;
+﻿using System.Reflection;
+using Avalonia;
 using LearnAva.MusicStore.Library.Interfaces;
 using LearnAva.MusicStore.Library.Services;
+using ReactiveUI;
 using Splat;
 
 namespace LearnAva.MusicStore.Library;
 
-public static class ServiceBootStrap
+public static partial class ServiceBootStrap
 {
     /// <summary>
     ///     register the services in library
     /// </summary>
-    public static void RegisterAppServices()
+    public static void RegisterLibraryServices()
     {
         // config log service
         var logger = new DebugLogger { Level = LogLevel.Info };
@@ -24,9 +26,9 @@ public static class ServiceBootStrap
     /// </summary>
     /// <param name="appBuilder">AppBuilder in Program.cs</param>
     /// <returns></returns>
-    public static AppBuilder RegisterAppServices(this AppBuilder appBuilder)
+    public static AppBuilder RegisterLibraryServices(this AppBuilder appBuilder)
     {
-        RegisterAppServices();
+        RegisterLibraryServices();
         return appBuilder;
     }
 }

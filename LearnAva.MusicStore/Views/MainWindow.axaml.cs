@@ -1,6 +1,6 @@
+using System;
 using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using LearnAva.MusicStore.Library.ViewModels;
 using ReactiveUI;
@@ -23,7 +23,8 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>, IEnableLo
     private async Task DoShowDialogAsync(InteractionContext<MusicStoreViewModel, AlbumViewModel?> interaction)
     {
         this.Log().Info("Show MusicStoreWindow");
-        var dialog = new MusicStoreWindow();
+        var dialog = Locator.Current.GetService<IViewFor<MusicStoreViewModel>>() as MusicStoreWindow
+                     ?? throw new Exception("Exception while create MusicStoreWindow");
         dialog.DataContext = interaction.Input;
 
         var result = await dialog.ShowDialog<AlbumViewModel?>(this);

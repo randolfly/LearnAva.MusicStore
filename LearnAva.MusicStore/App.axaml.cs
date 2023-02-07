@@ -22,7 +22,7 @@ public class App : Application, IEnableLogger
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var mainWindow = Locator.Current.GetService<IViewFor<MainWindowViewModel>>() as MainWindow
-                             ?? throw new Exception("Exception while create MusicStoreWindow");
+                             ?? throw new Exception("Exception while create MainWindow");
             mainWindow.DataContext = new MainWindowViewModel();
             desktop.MainWindow = mainWindow;
         }

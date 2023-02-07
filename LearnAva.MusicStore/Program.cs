@@ -24,7 +24,7 @@ internal class Program
             .UsePlatformDetect()
             .LogToTrace()
             .UseReactiveUI()
-            //.RegisterAppViews()
+            .RegisterAppViews()
             .RegisterLibraryServices();
     }
 }

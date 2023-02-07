@@ -8,6 +8,7 @@ using Splat;
 
 namespace LearnAva.MusicStore.Views;
 
+[SingleInstanceView]
 public partial class MainWindow : ReactiveWindow<MainWindowViewModel>, IEnableLogger
 {
     public MainWindow()

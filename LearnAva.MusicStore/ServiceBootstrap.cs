@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Avalonia;
+using LearnAva.MusicStore.Views;
 using ReactiveUI;
 using Splat;
 
@@ -12,7 +13,10 @@ public static class ServiceBootStrap
     /// </summary>
     public static void RegisterAppViews()
     {
+        // IViewFor window register
         Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetAssembly(typeof(App)));
+        Locator.CurrentMutable.Register<AlbumView>(() => new AlbumView());
+        Locator.CurrentMutable.RegisterLazySingleton<MusicStoreView>(() => new MusicStoreView());
     }
 
     /// <summary>

@@ -6,6 +6,7 @@ using ReactiveUI;
 
 namespace LearnAva.MusicStore.Views;
 
+[SingleInstanceView]
 public partial class MusicStoreWindow : ReactiveWindow<MusicStoreViewModel>
 {
     public MusicStoreWindow()
